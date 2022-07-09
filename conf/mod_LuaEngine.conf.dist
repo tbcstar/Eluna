@@ -4,19 +4,19 @@
 #  ELUNA SETTINGS
 #
 #   Eluna.Enabled
-#       Description: Enable or disable Eluna LuaEngine
+#       Description: 启用或禁用 Eluna LuaEngine
 #       Default:    true  - (enabled)
 #                   false - (disabled)
 #
 #   Eluna.TraceBack
-#       Description: Sets whether to use debug.traceback function on a lua error or not.
-#                    Notice that you can redefine the function.
-#       Default:    false - (use default error output)
-#                   true  - (use debug.traceback function)
+#       Description: 设置是否对 lua 错误使用 debug.traceback 函数。
+#                    请注意，您可以重新定义该函数。
+#       Default:    false - (使用默认错误输出)
+#                   true  - (使用 debug.traceback 函数)
 #
 #   Eluna.ScriptPath
-#       Description: Sets the location of the script folder to load scripts from
-#                    The path can be relative or absolute.
+#       Description: 设置脚本文件夹的位置以从中加载脚本
+#                    路径可以是相对的或绝对的。
 #       Default:    "lua_scripts"
 #
 
