@@ -20,13 +20,13 @@
 #       Default:    "lua_scripts"
 #
 #   Eluna.PlayerAnnounceReload
-#       Description: Enable or disable whether the reload announcement is sent to players (Lowest security level).
+#       Description: 启用或禁用是否向玩家发送重新加载通知（最低安全级别）。
 #       Default:    false - (disabled)
 #                   true  - (enabled)
 #
 
 Eluna.Enabled = true
-Eluna.TraceBack = false
+Eluna.TraceBack = true
 Eluna.ScriptPath = "lua_scripts"
 Eluna.PlayerAnnounceReload = false
 
