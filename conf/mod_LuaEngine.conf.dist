@@ -26,7 +26,7 @@
 #
 
 Eluna.Enabled = true
-Eluna.TraceBack = true
+Eluna.TraceBack = false
 Eluna.ScriptPath = "lua_scripts"
 Eluna.PlayerAnnounceReload = false
 
