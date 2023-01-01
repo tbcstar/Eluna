@@ -38,6 +38,7 @@ extern "C"
 #include "BattleGroundMethods.h"
 #include "ChatHandlerMethods.h"
 #include "AchievementMethods.h"
+#include "ItemTemplateMethods.h"
 
 luaL_Reg GlobalMethods[] =
 {
@@ -92,12 +93,14 @@ luaL_Reg GlobalMethods[] =
     { "GetPlayerCount", &LuaGlobalFunctions::GetPlayerCount },
     { "GetPlayerGUID", &LuaGlobalFunctions::GetPlayerGUID },
     { "GetItemGUID", &LuaGlobalFunctions::GetItemGUID },
+    { "GetItemTemplate", &LuaGlobalFunctions::GetItemTemplate },
     { "GetObjectGUID", &LuaGlobalFunctions::GetObjectGUID },
     { "GetUnitGUID", &LuaGlobalFunctions::GetUnitGUID },
     { "GetGUIDLow", &LuaGlobalFunctions::GetGUIDLow },
     { "GetGUIDType", &LuaGlobalFunctions::GetGUIDType },
     { "GetGUIDEntry", &LuaGlobalFunctions::GetGUIDEntry },
     { "GetAreaName", &LuaGlobalFunctions::GetAreaName },
+    { "GetOwnerHalaa", &LuaGlobalFunctions::GetOwnerHalaa },
     { "bit_not", &LuaGlobalFunctions::bit_not },
     { "bit_xor", &LuaGlobalFunctions::bit_xor },
     { "bit_rshift", &LuaGlobalFunctions::bit_rshift },
@@ -148,6 +151,7 @@ luaL_Reg GlobalMethods[] =
     { "StartGameEvent", &LuaGlobalFunctions::StartGameEvent },
     { "StopGameEvent", &LuaGlobalFunctions::StopGameEvent },
     { "HttpRequest", &LuaGlobalFunctions::HttpRequest },
+    { "SetOwnerHalaa", &LuaGlobalFunctions::SetOwnerHalaa },
 
     { NULL, NULL }
 };
@@ -471,6 +475,7 @@ ElunaRegister<Player> PlayerMethods[] =
     { "GetItemByPos", &LuaPlayer::GetItemByPos },
     { "GetItemByEntry", &LuaPlayer::GetItemByEntry },
     { "GetItemByGUID", &LuaPlayer::GetItemByGUID },
+    { "GetMailCount", &LuaPlayer::GetMailCount },
     { "GetMailItem", &LuaPlayer::GetMailItem },
     { "GetReputation", &LuaPlayer::GetReputation },
     { "GetEquippedItemBySlot", &LuaPlayer::GetEquippedItemBySlot },
@@ -507,6 +512,7 @@ ElunaRegister<Player> PlayerMethods[] =
     { "GetDrunkValue", &LuaPlayer::GetDrunkValue },
     { "GetBattlegroundId", &LuaPlayer::GetBattlegroundId },
     { "GetBattlegroundTypeId", &LuaPlayer::GetBattlegroundTypeId },
+    { "GetXP", &LuaPlayer::GetXP },
     { "GetXPRestBonus", &LuaPlayer::GetXPRestBonus },
     { "GetGroupInvite", &LuaPlayer::GetGroupInvite },
     { "GetSubGroup", &LuaPlayer::GetSubGroup },
@@ -612,6 +618,7 @@ ElunaRegister<Player> PlayerMethods[] =
     // {"HasPendingBind", &LuaPlayer::HasPendingBind},                                      // :HasPendingBind() - UNDOCUMENTED - Returns true if the player has a pending instance bind
 #if (!defined(TBC) && !defined(CLASSIC))
     { "HasAchieved", &LuaPlayer::HasAchieved },
+    { "GetAchievementCriteriaProgress", &LuaPlayer::GetAchievementCriteriaProgress },
 #if defined(TRINITY) || defined(AZEROTHCORE)
     { "SetAchievement", &LuaPlayer::SetAchievement },
 #endif
@@ -956,6 +963,7 @@ ElunaRegister<Item> ItemMethods[] =
 #endif
     { "GetItemSet", &LuaItem::GetItemSet },
     { "GetBagSize", &LuaItem::GetBagSize },
+    { "GetItemTemplate", &LuaItem::GetItemTemplate },
 
     // Setters
     { "SetOwner", &LuaItem::SetOwner },
@@ -994,6 +1002,27 @@ ElunaRegister<Item> ItemMethods[] =
     // Other
     { "SaveToDB", &LuaItem::SaveToDB },
 
+    { NULL, NULL }
+};
+
+ElunaRegister<ItemTemplate> ItemTemplateMethods[] =
+{
+    { "GetItemId", &LuaItemTemplate::GetItemId },
+    { "GetClass", &LuaItemTemplate::GetClass },
+    { "GetSubClass", &LuaItemTemplate::GetSubClass },
+    { "GetName", &LuaItemTemplate::GetName },
+    { "GetDisplayId", &LuaItemTemplate::GetDisplayId },
+    { "GetQuality", &LuaItemTemplate::GetQuality },
+    { "GetFlags", &LuaItemTemplate::GetFlags },
+    { "GetExtraFlags", &LuaItemTemplate::GetExtraFlags },
+    { "GetBuyCount", &LuaItemTemplate::GetBuyCount },
+    { "GetBuyPrice", &LuaItemTemplate::GetBuyPrice },
+    { "GetSellPrice", &LuaItemTemplate::GetSellPrice },
+    { "GetInventoryType", &LuaItemTemplate::GetInventoryType },
+    { "GetAllowableClass", &LuaItemTemplate::GetAllowableClass },
+    { "GetAllowableRace", &LuaItemTemplate::GetAllowableRace },
+    { "GetItemLevel", &LuaItemTemplate::GetItemLevel },
+    { "GetRequiredLevel", &LuaItemTemplate::GetRequiredLevel },
     { NULL, NULL }
 };
 
@@ -1077,6 +1106,7 @@ ElunaRegister<Group> GroupMethods[] =
     { "GetMemberGroup", &LuaGroup::GetMemberGroup },
     { "GetMemberGUID", &LuaGroup::GetMemberGUID },
     { "GetMembersCount", &LuaGroup::GetMembersCount },
+    { "GetGroupType", &LuaGroup::GetGroupType },
 
     // Setters
     { "SetLeader", &LuaGroup::SetLeader },
@@ -1429,6 +1459,9 @@ void RegisterFunctions(Eluna* E)
     ElunaTemplate<Item>::Register(E, "Item");
     ElunaTemplate<Item>::SetMethods(E, ObjectMethods);
     ElunaTemplate<Item>::SetMethods(E, ItemMethods);
+
+    ElunaTemplate<ItemTemplate>::Register(E, "ItemTemplate");
+    ElunaTemplate<ItemTemplate>::SetMethods(E, ItemTemplateMethods);
 
 #ifndef CLASSIC
 #ifndef TBC

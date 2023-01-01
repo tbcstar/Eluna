@@ -407,6 +407,11 @@ public:
     {
         sEluna->OnDisband(group);
     }
+
+    void OnCreate(Group* group, Player* leader) override
+    {
+        sEluna->OnCreate(group, leader->GetGUID(), group->GetGroupType());
+    }
 };
 
 class Eluna_GuildScript : public GuildScript
@@ -750,6 +755,16 @@ public:
     void OnFfaPvpStateUpdate(Player* player, bool IsFlaggedForFfaPvp) override
     {
         sEluna->OnFfaPvpStateUpdate(player, IsFlaggedForFfaPvp);
+    }
+
+    bool CanInitTrade(Player* player, Player* target) override
+    {
+        return sEluna->OnCanInitTrade(player, target);
+    }
+
+    bool CanSendMail(Player* player, ObjectGuid receiverGuid, ObjectGuid mailbox, std::string& subject, std::string& body, uint32 money, uint32 cod, Item* item) override
+    {
+        return sEluna->OnCanSendMail(player, receiverGuid, mailbox, subject, body, money, cod, item);
     }
 };
 

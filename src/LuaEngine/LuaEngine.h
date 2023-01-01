@@ -476,6 +476,8 @@ public:
     void OnLearnSpell(Player* player, uint32 spellId);
     void OnAchiComplete(Player* player, AchievementEntry const* achievement);
     void OnFfaPvpStateUpdate(Player* player, bool hasFfaPvp);
+    bool OnCanInitTrade(Player* player, Player* target);
+    bool OnCanSendMail(Player* player, ObjectGuid receiverGuid, ObjectGuid mailbox, std::string& subject, std::string& body, uint32 money, uint32 cod, Item* item);
 
 #ifndef CLASSIC
 #ifndef TBC
