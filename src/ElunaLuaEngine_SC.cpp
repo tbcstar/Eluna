@@ -791,6 +791,11 @@ public:
     {
         sEluna->OnPlayerCompleteQuest(player, quest);
     }
+
+    bool CanGroupInvite(Player* player, std::string& memberName) override
+    {
+        return sEluna->OnCanGroupInvite(player, memberName);
+    }
 };
 
 class Eluna_ServerScript : public ServerScript
@@ -896,16 +901,8 @@ public:
 
     void OnWorldObjectSetMap(WorldObject* object, Map* /*map*/) override
     {
-        delete object->elunaEvents;
-
-        // On multithread replace this with a pointer to map's Eluna pointer stored in a map
-        object->elunaEvents = new ElunaEventProcessor(&Eluna::GEluna, object);
-    }
-
-    void OnWorldObjectResetMap(WorldObject* object) override
-    {
-        delete object->elunaEvents;
-        object->elunaEvents = nullptr;
+        if (!object->elunaEvents)
+            object->elunaEvents = new ElunaEventProcessor(&Eluna::GEluna, object);
     }
 
     void OnWorldObjectUpdate(WorldObject* object, uint32 diff) override

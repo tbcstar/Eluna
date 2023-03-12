@@ -181,7 +181,7 @@ namespace Hooks
         PLAYER_EVENT_ON_WHISPER                 =     19,       // (event, player, msg, Type, lang, receiver) - Can return false, newMessage
         PLAYER_EVENT_ON_GROUP_CHAT              =     20,       // (event, player, msg, Type, lang, group) - Can return false, newMessage
         PLAYER_EVENT_ON_GUILD_CHAT              =     21,       // (event, player, msg, Type, lang, guild) - Can return false, newMessage
-        PLAYER_EVENT_ON_CHANNEL_CHAT            =     22,       // (event, player, msg, Type, lang, channel) - Can return false, newMessage
+        PLAYER_EVENT_ON_CHANNEL_CHAT            =     22,       // (event, player, msg, Type, lang, channel) - channel is negative for custom channels. Can return false, newMessage
         PLAYER_EVENT_ON_EMOTE                   =     23,       // (event, player, emote) - Not triggered on any known emote
         PLAYER_EVENT_ON_TEXT_EMOTE              =     24,       // (event, player, textEmote, emoteNum, guid)
         PLAYER_EVENT_ON_SAVE                    =     25,       // (event, player)
@@ -215,7 +215,8 @@ namespace Hooks
         PLAYER_EVENT_ON_QUEST_REWARD_ITEM       =     51,       // (event, player, item, count)
         PLAYER_EVENT_ON_CREATE_ITEM             =     52,       // (event, player, item, count)
         PLAYER_EVENT_ON_STORE_NEW_ITEM          =     53,       // (event, player, item, count) 
-        PLAYER_EVENT_ON_COMPLETE_QUEST          =     54,       // (event, player, quest) 
+        PLAYER_EVENT_ON_COMPLETE_QUEST          =     54,       // (event, player, quest)
+        PLAYER_EVENT_ON_CAN_GROUP_INVITE        =     55,       // (event, player, memberName) - Can return false to prevent inviting
 
         PLAYER_EVENT_COUNT
     };

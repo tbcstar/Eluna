@@ -509,7 +509,7 @@ bool Eluna::OnChat(Player* pPlayer, uint32 type, uint32 lang, std::string& msg, 
     Push(msg);
     Push(type);
     Push(lang);
-    Push(pChannel->GetChannelId());
+    Push(pChannel->IsConstant() ? static_cast<int32>(pChannel->GetChannelId()) : -static_cast<int32>(pChannel->GetChannelDBId()));
     int n = SetupStack(PlayerEventBindings, key, 5);
 
     while (n > 0)
@@ -669,4 +669,12 @@ void Eluna::OnPlayerCompleteQuest(Player* player, Quest const* quest)
     Push(player);
     Push(quest);
     CallAllFunctions(PlayerEventBindings, key);
+}
+
+bool Eluna::OnCanGroupInvite(Player* player, std::string& memberName)
+{
+    START_HOOK_WITH_RETVAL(PLAYER_EVENT_ON_CAN_GROUP_INVITE, true);
+    Push(player);
+    Push(memberName);
+    return CallAllFunctionsBool(PlayerEventBindings, key);
 }
