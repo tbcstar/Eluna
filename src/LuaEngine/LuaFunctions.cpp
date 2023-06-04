@@ -39,6 +39,7 @@ extern "C"
 #include "ChatHandlerMethods.h"
 #include "AchievementMethods.h"
 #include "ItemTemplateMethods.h"
+#include "RollMethods.h"
 
 luaL_Reg GlobalMethods[] =
 {
@@ -128,10 +129,13 @@ luaL_Reg GlobalMethods[] =
     { "RunCommand", &LuaGlobalFunctions::RunCommand },
     { "SendWorldMessage", &LuaGlobalFunctions::SendWorldMessage },
     { "WorldDBQuery", &LuaGlobalFunctions::WorldDBQuery },
+    { "WorldDBQueryAsync", &LuaGlobalFunctions::WorldDBQueryAsync },
     { "WorldDBExecute", &LuaGlobalFunctions::WorldDBExecute },
     { "CharDBQuery", &LuaGlobalFunctions::CharDBQuery },
+    { "CharDBQueryAsync", &LuaGlobalFunctions::CharDBQueryAsync },
     { "CharDBExecute", &LuaGlobalFunctions::CharDBExecute },
     { "AuthDBQuery", &LuaGlobalFunctions::AuthDBQuery },
+    { "AuthDBQueryAsync", &LuaGlobalFunctions::AuthDBQueryAsync },
     { "AuthDBExecute", &LuaGlobalFunctions::AuthDBExecute },
     { "CreateLuaEvent", &LuaGlobalFunctions::CreateLuaEvent },
     { "RemoveEventById", &LuaGlobalFunctions::RemoveEventById },
@@ -308,6 +312,7 @@ ElunaRegister<Unit> UnitMethods[] =
     // {"GetVehicle", &LuaUnit::GetVehicle},                           // :GetVehicle() - UNDOCUMENTED - Gets the Vehicle kit of the vehicle the unit is on
 #endif
     { "GetMovementType", &LuaUnit::GetMovementType },
+    { "GetAttackers", &LuaUnit::GetAttackers },
 
     // Setters
     { "SetFaction", &LuaUnit::SetFaction },
@@ -424,6 +429,7 @@ ElunaRegister<Unit> UnitMethods[] =
     // {"RemoveBindSightAuras", &LuaUnit::RemoveBindSightAuras},        // :RemoveBindSightAuras() - UNDOCUMENTED
     // {"RemoveCharmAuras", &LuaUnit::RemoveCharmAuras},                // :RemoveCharmAuras() - UNDOCUMENTED
     { "ClearThreatList", &LuaUnit::ClearThreatList },
+    { "GetThreatList", &LuaUnit::GetThreatList },
     { "ClearUnitState", &LuaUnit::ClearUnitState },
     { "AddUnitState", &LuaUnit::AddUnitState },
     // {"DisableMelee", &LuaUnit::DisableMelee},                        // :DisableMelee([disable]) - UNDOCUMENTED - if true, enables
@@ -537,6 +543,8 @@ ElunaRegister<Player> PlayerMethods[] =
     { "GetRankPoints", &LuaPlayer::GetRankPoints },
     { "GetHonorLastWeekStandingPos", &LuaPlayer::GetHonorLastWeekStandingPos },
 #endif
+    { "GetPlayerSettingValue", &LuaPlayer::GetPlayerSettingValue },
+    { "GetTrader", &LuaPlayer::GetTrader },
 
     // Setters
     { "AdvanceSkillsToMax", &LuaPlayer::AdvanceSkillsToMax },
@@ -598,6 +606,8 @@ ElunaRegister<Player> PlayerMethods[] =
 #ifndef CLASSIC
     { "IsInArenaTeam", &LuaPlayer::IsInArenaTeam },
 #endif
+    { "CanRewardQuest", &LuaPlayer::CanRewardQuest },
+    { "CanCompleteRepeatableQuest", &LuaPlayer::CanCompleteRepeatableQuest },
     { "CanCompleteQuest", &LuaPlayer::CanCompleteQuest },
     { "CanEquipItem", &LuaPlayer::CanEquipItem },
     { "IsFalling", &LuaPlayer::IsFalling },
@@ -773,6 +783,7 @@ ElunaRegister<Player> PlayerMethods[] =
     { "ResetHonor", &LuaPlayer::ResetHonor },
     { "ClearHonorInfo", &LuaPlayer::ClearHonorInfo },
 #endif
+    { "UpdatePlayerSetting", &LuaPlayer::UpdatePlayerSetting },
 
     { NULL, NULL }
 };
@@ -804,6 +815,8 @@ ElunaRegister<Creature> CreatureMethods[] =
     { "GetLootRecipient", &LuaCreature::GetLootRecipient },
     { "GetLootRecipientGroup", &LuaCreature::GetLootRecipientGroup },
     { "GetNPCFlags", &LuaCreature::GetNPCFlags },
+    { "GetUnitFlags", &LuaCreature::GetUnitFlags },
+    { "GetUnitFlagsTwo", &LuaCreature::GetUnitFlagsTwo },
     { "GetExtraFlags", &LuaCreature::GetExtraFlags },
 #if defined(CLASSIC) || defined(TBC) || defined(WOTLK)
     { "GetShieldBlockValue", &LuaCreature::GetShieldBlockValue },
@@ -829,6 +842,8 @@ ElunaRegister<Creature> CreatureMethods[] =
     { "SetLootMode", &LuaCreature::SetLootMode },
 #endif
     { "SetNPCFlags", &LuaCreature::SetNPCFlags },
+    { "SetUnitFlags", &LuaCreature::SetUnitFlags },
+    { "SetUnitFlagsTwo", &LuaCreature::SetUnitFlagsTwo },
 #if defined(TRINITY) || AZEROTHCORE
     { "SetReactState", &LuaCreature::SetReactState },
 #endif
@@ -1360,6 +1375,25 @@ ElunaRegister<AchievementEntry> AchievementMethods[] =
     { NULL, NULL }
 };
 
+ElunaRegister<Roll> RollMethods[] =
+{
+    { "GetItemGUID", &LuaRoll::GetItemGUID },
+    { "GetItemId", &LuaRoll::GetItemId },
+    { "GetItemRandomPropId", &LuaRoll::GetItemRandomPropId },
+    { "GetItemRandomSuffix", &LuaRoll::GetItemRandomSuffix },
+    { "GetItemCount", &LuaRoll::GetItemCount },
+    { "GetPlayerVote", &LuaRoll::GetPlayerVote },
+    { "GetPlayerVoteGUIDs", &LuaRoll::GetPlayerVoteGUIDs },
+    { "GetTotalPlayersRolling", &LuaRoll::GetTotalPlayersRolling },
+    { "GetTotalNeed", &LuaRoll::GetTotalNeed },
+    { "GetTotalGreed", &LuaRoll::GetTotalGreed },
+    { "GetTotalPass", &LuaRoll::GetTotalPass },
+    { "GetItemSlot", &LuaRoll::GetItemSlot },
+    { "GetRollVoteMask", &LuaRoll::GetRollVoteMask },
+
+    { NULL, NULL }
+};
+
 #if (!defined(TBC) && !defined(CLASSIC))
 // fix compile error about accessing vehicle destructor
 template<> int ElunaTemplate<Vehicle>::CollectGarbage(lua_State* L)
@@ -1507,6 +1541,9 @@ void RegisterFunctions(Eluna* E)
 
     ElunaTemplate<AchievementEntry>::Register(E, "AchievementEntry");
     ElunaTemplate<AchievementEntry>::SetMethods(E, AchievementMethods);
+
+    ElunaTemplate<Roll>::Register(E, "Roll");
+    ElunaTemplate<Roll>::SetMethods(E, RollMethods);
 
     ElunaTemplate<long long>::Register(E, "long long", true);
 

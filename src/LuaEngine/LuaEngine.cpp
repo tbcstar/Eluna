@@ -164,6 +164,7 @@ enabled(false),
 L(NULL),
 eventMgr(NULL),
 httpManager(),
+queryProcessor(),
 
 ServerEventBindings(NULL),
 PlayerEventBindings(NULL),
@@ -578,6 +579,7 @@ int Eluna::StackTrace(lua_State *_L)
 
     // dirty stack?
     // Stack: errmsg, debug, tracemsg
+    sEluna->OnError(std::string(lua_tostring(_L, -1)));
     return 1;
 }
 

@@ -227,18 +227,19 @@ void Eluna::OnMoneyChanged(Player* pPlayer, int32& amount)
     CleanUpStack(2);
 }
 
-void Eluna::OnGiveXP(Player* pPlayer, uint32& amount, Unit* pVictim)
+void Eluna::OnGiveXP(Player* pPlayer, uint32& amount, Unit* pVictim, uint8 xpSource)
 {
     START_HOOK(PLAYER_EVENT_ON_GIVE_XP);
     Push(pPlayer);
     Push(amount);
     Push(pVictim);
+    Push(xpSource);
     int amountIndex = lua_gettop(L) - 1;
-    int n = SetupStack(PlayerEventBindings, key, 3);
+    int n = SetupStack(PlayerEventBindings, key, 4);
 
     while (n > 0)
     {
-        int r = CallOneFunction(n--, 3, 1);
+        int r = CallOneFunction(n--, 4, 1);
 
         if (lua_isnumber(L, r))
         {
@@ -250,7 +251,7 @@ void Eluna::OnGiveXP(Player* pPlayer, uint32& amount, Unit* pVictim)
         lua_pop(L, 1);
     }
 
-    CleanUpStack(3);
+    CleanUpStack(4);
 }
 
 bool Eluna::OnReputationChange(Player* pPlayer, uint32 factionID, int32& standing, bool incremental)
@@ -677,4 +678,33 @@ bool Eluna::OnCanGroupInvite(Player* player, std::string& memberName)
     Push(player);
     Push(memberName);
     return CallAllFunctionsBool(PlayerEventBindings, key);
+}
+
+void Eluna::OnGroupRollRewardItem(Player* player, Item* item, uint32 count, RollVote voteType, Roll* roll)
+{
+    START_HOOK(PLAYER_EVENT_ON_GROUP_ROLL_REWARD_ITEM);
+    Push(player);
+    Push(item);
+    Push(count);
+    Push(voteType);
+    Push(roll);
+    CallAllFunctions(PlayerEventBindings, key);
+}
+
+void Eluna::OnApplyAura(Player* player, Aura* aura, bool isNewAura)
+{
+    START_HOOK(PLAYER_EVENT_ON_APPLY_AURA);
+    Push(player);
+    Push(aura);
+    Push(isNewAura);
+    CallAllFunctions(PlayerEventBindings, key);
+}
+
+void Eluna::OnRemoveAura(Player* player, Aura* aura, bool isExpired)
+{
+    START_HOOK(PLAYER_EVENT_ON_REMOVE_AURA);
+    Push(player);
+    Push(aura);
+    Push(isExpired);
+    CallAllFunctions(PlayerEventBindings, key);
 }
